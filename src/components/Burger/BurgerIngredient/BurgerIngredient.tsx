@@ -1,10 +1,18 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
+// import * as PropTypes from 'prop-types'; // PropTypes.ReactElementLike &
 
-import './BurgerIngredients.css';
+import './BurgerIngredient.css';
 
-class BurgerIngredient extends React.Component<PropTypes.ReactElementLike, any> {
-    render() {
+interface IPassedProps extends React.Props<any> { 
+    type: string;
+}
+
+class BurgerIngredient extends React.Component<IPassedProps & any> {
+    constructor(props: any) {
+        super(props);
+    };
+
+    public render() {
         let ingredient = null;
 
         switch (this.props.type) {
