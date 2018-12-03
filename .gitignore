@@ -20,6 +20,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+#----------------
+#copied from IPSM:
+
 #ignore thumbnails created by windows
 Thumbs.db
 #Ignore files build by Visual Studio
@@ -60,7 +63,9 @@ packages/
 *.dbmdl
 *.jfm
 
-#example from site
+#-----------------
+#Example from site:
+
 node_modules
 ncp-debug.log
 npm-debug.log
