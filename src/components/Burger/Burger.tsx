@@ -1,17 +1,7 @@
 import * as React from 'react';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
-import './Burger.css';
-
-// const burger = () => (
-//     <div className="Burger">
-//         <BurgerIngredient type="bread-top" />
-//         <BurgerIngredient type="cheese" />
-//         <BurgerIngredient type="meat" />
-//         <BurgerIngredient type="bread-bottom" />
-//     </div>
-// );
-
+import * as styles from './Burger.css';
 
 class Burger extends React.Component<any> {
     constructor(props: any) {
@@ -20,12 +10,15 @@ class Burger extends React.Component<any> {
 
     public render() {
         return (
-            <div className="Burger">
-            <p>burger components</p>
+            <div className={styles.Burger}>
                 <BurgerIngredient type="bread-top" />
+                <BurgerIngredient type="salad" />
+                <BurgerIngredient type="bacon" />
+                <BurgerIngredient type="cucumber" />
                 <BurgerIngredient type="cheese" />
+                <BurgerIngredient type="ketchup" />
                 <BurgerIngredient type="meat" />
-                <BurgerIngredient type="bread-bottom" />                
+                <BurgerIngredient type="bread-bottom" />
             </div>
         );
     }
