@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import * as PropTypes from 'prop-types'; // PropTypes.ReactElementLike &
 
-import './BurgerIngredient.css';
+import * as styles from './BurgerIngredient.css';
 
 interface IPassedProps extends React.Props<any> { 
     type: string;
@@ -13,10 +13,10 @@ class BurgerIngredient extends React.Component<IPassedProps & any> {
     };
 
     public render() {
-        let ingredient = null;
+        let ingredient = null;        
 
         switch (this.props.type) {
-            case ('bread-bottom'):
+            case ( 'bread-bottom'):
                 ingredient = <div className='BreadBottom' />;
                 break;
             case ('bread-top'):
@@ -24,6 +24,7 @@ class BurgerIngredient extends React.Component<IPassedProps & any> {
                     <div className='BreadTop'>
                         <div className='Seeds1' />
                         <div className='Seeds2' />
+                        <p>bread</p>
                     </div>
                 );
                 break;
