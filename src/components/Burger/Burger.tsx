@@ -13,16 +13,19 @@ class Burger extends React.Component<IPassedProps, any> {
     };
 
     public render() {
-
         let layer = 1;
         const inputIngredients = this.props.ingredients.map((name: string) => {
             return <BurgerIngredient key={layer++} type={name} />
         });
 
+        const burgerIngredients = inputIngredients.length !== 0
+            ? inputIngredients
+            : <p>Please start adding ingredients!</p>;
+
         return (
             <div className={styles.Burger}>
                 <BurgerIngredient type="bread-top" />
-                {inputIngredients}
+                {burgerIngredients}
                 <BurgerIngredient type="bread-bottom" />
             </div>
         );

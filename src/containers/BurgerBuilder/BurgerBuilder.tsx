@@ -17,16 +17,10 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
     };
 
     public componentWillMount() {
+        // const randomIngs = ['salad','cucumber','cheese','meat','ketchup','cheese']; 
+        
         this.setState({
-            ingredients:
-            [
-                'salad',
-                'cucumber',
-                'cheese',
-                'meat',
-                'ketchup',
-                'cheese'
-            ]
+            ingredients: []
         });
     }
 
