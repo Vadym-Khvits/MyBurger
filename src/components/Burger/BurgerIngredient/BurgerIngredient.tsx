@@ -5,7 +5,7 @@ interface IPassedProps extends React.Props<any> {
     type: string;
 }
 
-class BurgerIngredient extends React.Component<IPassedProps & any> {
+class BurgerIngredient extends React.Component<IPassedProps, any> {
     constructor(props: any) {
         super(props);
     };
