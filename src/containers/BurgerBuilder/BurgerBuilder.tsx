@@ -1,4 +1,5 @@
 import * as React from 'react';
+import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
 import Aux from '../../hoc/_Aux';
 
@@ -17,10 +18,10 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
     };
 
     public componentWillMount() {
-        // const randomIngs = ['salad','cucumber','cheese','meat','ketchup','cheese']; 
+        const randomIngs = ['bacon','salad','cucumber','cheese','meat','ketchup']; 
         
         this.setState({
-            ingredients: []
+            ingredients: [...randomIngs]
         });
     }
 
@@ -29,6 +30,7 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
             <Aux>
                 <Burger ingredients={this.state.ingredients} />
                 <div>Build Controls</div>
+                <BuildControls/>
             </Aux>
         );
     }

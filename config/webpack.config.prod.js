@@ -194,13 +194,15 @@ module.exports = {
                   },
                   use: [
                     {
-                      loader: require.resolve('css-loader'),
+                      loader: require.resolve('typings-for-css-modules-loader'),
                       options: {
                         importLoaders: 1,
                         minimize: true,
                         sourceMap: shouldUseSourceMap,
                         modules: true,
-                        localIdentName: '[name]_[local]_[hash:base64:5]'
+                        localIdentName: '[name]_[local]_[hash:base64:5]',
+                        namedExport: true,
+                        camelCase: true
                       },
                     },
                     {
@@ -371,6 +373,8 @@ module.exports = {
       tsconfig: paths.appTsProdConfig,
       tslint: paths.appTsLint,
     }),
+    // added manually 
+    new webpack.WatchIgnorePlugin([/css\.d\.ts$/])
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
