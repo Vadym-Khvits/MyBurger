@@ -1,6 +1,17 @@
 import * as React from 'react';
 import * as styles from './BurgerIngredient.css';
 
+export enum IngredientTypes {
+    BreadBottom = 'BreadBottom',
+    BreadTop = 'BreadTop',
+    Meat = 'Meat',
+    Salad = 'Salad',
+    Cheese = 'Cheese',
+    Bacon = 'Bacon',
+    Ketchup = 'Ketchup',
+    Cucumber = 'Cucumber'
+}
+
 interface IPassedProps extends React.Props<any> {
     type: string;
 }
@@ -14,10 +25,10 @@ class BurgerIngredient extends React.Component<IPassedProps, any> {
         let ingredient = null;
 
         switch (this.props.type) {
-            case ('bread-bottom'):
+            case (IngredientTypes.BreadBottom):
                 ingredient = <div className={styles.BreadBottom} />;
                 break;
-            case ('bread-top'):
+            case (IngredientTypes.BreadTop):
                 ingredient = (
                     <div className={styles.BreadTop}>
                         <div className={styles.Seeds1} />
@@ -25,22 +36,22 @@ class BurgerIngredient extends React.Component<IPassedProps, any> {
                     </div>
                 );
                 break;
-            case ('meat'):
+            case (IngredientTypes.Meat):
                 ingredient = <div className={styles.Meat} />;
                 break;
-            case ('cheese'):
+            case (IngredientTypes.Cheese):
                 ingredient = <div className={styles.Cheese} />;
                 break;
-            case ('bacon'):
+            case (IngredientTypes.Bacon):
                 ingredient = <div className={styles.Bacon} />;
                 break;
-            case ('salad'):
+            case (IngredientTypes.Salad):
                 ingredient = <div className={styles.Salad} />;
                 break;
-            case ('ketchup'):
+            case (IngredientTypes.Ketchup):
                 ingredient = <div className={styles.Ketchup} />;
                 break;
-            case ('cucumber'):
+            case (IngredientTypes.Cucumber):
                 ingredient = (
                     <div className={styles.Cucumbers} >
                         <div className={styles.Cucumber} />

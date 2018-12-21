@@ -1,5 +1,6 @@
 import * as React from 'react';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
+import { IngredientTypes } from './BurgerIngredient/BurgerIngredient';
 
 import * as styles from './Burger.css';
 
@@ -24,9 +25,9 @@ class Burger extends React.Component<IPassedProps, any> {
 
         return (
             <div className={styles.Burger}>
-                <BurgerIngredient type="bread-top" />
+                <BurgerIngredient type={IngredientTypes.BreadTop} />
                 {burgerIngredients}
-                <BurgerIngredient type="bread-bottom" />
+                <BurgerIngredient type={IngredientTypes.BreadBottom} />
             </div>
         );
     }
