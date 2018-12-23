@@ -1,73 +1,81 @@
 import * as React from 'react';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
-import { IngredientTypes } from '../../components/Burger/BurgerIngredient/BurgerIngredient';
 import Aux from '../../hoc/_Aux';
 
 interface IOwnStateProps {
     purchasing: boolean;
     ingredientsStack: string[];
-    ingredients: any;
+    ingredientsCounter: number;
 }
 
 class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            ingredients: {},
-            ingredientsStack: [],
+            ingredientsCounter: {
+                Bacon: 0,
+                Cheese: 0,
+                Cucumber: 0,
+                Ketchup: 0,
+                Meat: 0,
+                Salad: 0
+            },
+            ingredientsStack: [] as string[],
             purchasing: false
+            // totalPrice: 4
         };
     };
 
-    // private initIngredients = () => {
-
-    // }
-
-    public componentWillMount() {
-        const dummyIngs = [
-            IngredientTypes.Bacon,
-            IngredientTypes.Salad,
-            IngredientTypes.Cucumber,
-            IngredientTypes.Cheese,
-            IngredientTypes.Meat,
-            IngredientTypes.Ketchup
-        ];
+    public addIngredientHandler = (type: string) => {
+        const updatedCounter = {
+            ...this.state.ingredientsCounter
+        };
+        updatedCounter[type] = this.state.ingredientsCounter[type] + 1;
         
+        const updatedStack = [
+            ...this.state.ingredientsStack
+        ];
+        updatedStack.push(type);
+
         this.setState({
-            ingredientsStack: [...dummyIngs]
+            ingredientsCounter: updatedCounter,
+            ingredientsStack: updatedStack
         });
+
+        //     // const priceAddition = INGREDIENT_PRICES[type];
+        //     // const oldPrice = this.state.totalPrice;
+        //     // const newPrice = oldPrice + priceAddition;
+        //     // this.setState( { totalPrice: newPrice, ingredients: updatedIngredients } );
+        //     // this.updatePurchaseState(updatedIngredients);
     }
 
-    public addIngredientHandler = ( type: string ) => {
-        const oldCount = this.state.ingredients[type];
-        const updatedCount = oldCount + 1;
-        const updatedIngredients = {
-            ...this.state.ingredients
-        };
-        updatedIngredients[type] = updatedCount;
-        // const priceAddition = INGREDIENT_PRICES[type];
-        // const oldPrice = this.state.totalPrice;
-        // const newPrice = oldPrice + priceAddition;
-        // this.setState( { totalPrice: newPrice, ingredients: updatedIngredients } );
-        // this.updatePurchaseState(updatedIngredients);
-    }
+    public removeIngredientHandler = (type: string) => {
+            const oldCount = this.state.ingredientsCounter[type];
+            if (oldCount === 0) {
+                return;
+            }
+            const updatedCounter = {
+                ...this.state.ingredientsCounter
+            };
+            updatedCounter[type] = this.state.ingredientsCounter[type] - 1;
 
-    public removeIngredientHandler = ( type: string ) => {
-        const oldCount = this.state.ingredients[type];
-        if ( oldCount <= 0 ) {
-            return;
-        }
-        const updatedCount = oldCount - 1;
-        const updatedIngredients = {
-            ...this.state.ingredients
-        };
-        updatedIngredients[type] = updatedCount;
-        // const priceDeduction = INGREDIENT_PRICES[type];
-        // const oldPrice = this.state.totalPrice;
-        // const newPrice = oldPrice - priceDeduction;
-        // this.setState( { totalPrice: newPrice, ingredients: updatedIngredients } );
-        // this.updatePurchaseState(updatedIngredients);
+            const updatedStack = [
+                ...this.state.ingredientsStack
+            ];
+            const elementToRemove = updatedStack.lastIndexOf(type);
+            updatedStack.splice(elementToRemove,1);
+    
+            this.setState({
+                ingredientsCounter: updatedCounter,
+                ingredientsStack: updatedStack
+            });
+
+        //     // const priceDeduction = INGREDIENT_PRICES[type];
+        //     // const oldPrice = this.state.totalPrice;
+        //     // const newPrice = oldPrice - priceDeduction;
+        //     // this.setState( { totalPrice: newPrice, ingredients: updatedIngredients } );
+        //     // this.updatePurchaseState(updatedIngredients);
     }
 
 
@@ -75,7 +83,10 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
         return (
             <Aux>
                 <Burger ingredients={this.state.ingredientsStack} />
-                <BuildControls/>
+                <BuildControls
+                    ingredientAdded={this.addIngredientHandler}
+                    ingredientRemoved={this.removeIngredientHandler}
+                />
             </Aux>
         );
     }

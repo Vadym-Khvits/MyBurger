@@ -4,13 +4,20 @@ import BuildControl from './BuildControl/BuildControl';
 import * as classes from './BuildControls.css';
 
 const controls = [
-    { label: 'Salad', type: 'salad' },
-    { label: 'Bacon', type: 'bacon' },
-    { label: 'Cheese', type: 'cheese' },
-    { label: 'Meat', type: 'meat' },
+    { label: 'Salad', type: 'Salad' },
+    { label: 'Bacon', type: 'Bacon' },
+    { label: 'Cheese', type: 'Cheese' },
+    { label: 'Meat', type: 'Meat' },
+    { label: 'Ketchup', type: 'Ketchup' },
+    { label: 'Cucumber', type: 'Cucumber' }
 ];
 
-class BuildControls extends React.Component<any> {
+interface IPassedProps extends React.Props<any> {
+    ingredientAdded: (type: string) => void;
+    ingredientRemoved: (type: string) => void;
+}
+
+class BuildControls extends React.Component<IPassedProps, any> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -26,9 +33,12 @@ class BuildControls extends React.Component<any> {
                     <BuildControl
                         key={ctrl.label}
                         label={ctrl.label}
-                        // added={props.ingredientAdded(ctrl.type)}
-                        // removed={props.ingredientRemoved(ctrl.type)}
-                        // disabled={props.disabled[ctrl.type]}
+                        // tslint:disable-next-line jsx-no-lambda
+                        added={() => this.props.ingredientAdded(ctrl.type)}
+                        // tslint:disable-next-line jsx-no-lambda
+                        removed={() => this.props.ingredientRemoved(ctrl.type)}
+                        // tslint:enable-next-line jsx-no-lambda
+                        // disabled={() => this.props.disabled[ctrl.type]}
                     />
                 ))}
                 <button
