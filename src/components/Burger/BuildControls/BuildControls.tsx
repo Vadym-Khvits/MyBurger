@@ -15,6 +15,7 @@ const controls = [
 interface IPassedProps extends React.Props<any> {
     ingredientAdded: (type: string) => void;
     ingredientRemoved: (type: string) => void;
+    price: number;
 }
 
 class BuildControls extends React.Component<IPassedProps, any> {
@@ -25,7 +26,7 @@ class BuildControls extends React.Component<IPassedProps, any> {
     };
 
     public render() {
-        const price = '4.00'; // this.props.price.toFixed(2);
+        const price = this.props.price.toFixed(2);
         return (
             <div className={classes.BuildControls}>
                 <p>Current Price: <strong>{price}</strong></p>
@@ -37,7 +38,6 @@ class BuildControls extends React.Component<IPassedProps, any> {
                         added={() => this.props.ingredientAdded(ctrl.type)}
                         // tslint:disable-next-line jsx-no-lambda
                         removed={() => this.props.ingredientRemoved(ctrl.type)}
-                        // tslint:enable-next-line jsx-no-lambda
                         // disabled={() => this.props.disabled[ctrl.type]}
                     />
                 ))}
