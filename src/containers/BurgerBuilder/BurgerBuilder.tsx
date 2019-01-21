@@ -13,7 +13,7 @@ const INGREDIENT_PRICES = {
 };
 
 interface IOwnStateProps {
-    purchasing: boolean;
+    purchasable: boolean;
     ingredientsStack: string[];
     ingredientsCounter: number;
     totalPrice: number;
@@ -32,7 +32,7 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
                 Salad: 0
             },
             ingredientsStack: [] as string[],
-            purchasing: false,
+            purchasable: false,
             totalPrice: 4
         };
     };
@@ -51,10 +51,12 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
         const priceAddition = INGREDIENT_PRICES[type];
         const oldPrice = this.state.totalPrice;
         const newPrice = oldPrice + priceAddition;
+        const updatedPurchasable = updatedStack.length > 0;
 
         this.setState({
             ingredientsCounter: updatedCounter,
             ingredientsStack: updatedStack,
+            purchasable: updatedPurchasable,
             totalPrice: newPrice
         });
     }
@@ -78,10 +80,12 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
         const priceAddition = INGREDIENT_PRICES[type];
         const oldPrice = this.state.totalPrice;
         const newPrice = oldPrice - priceAddition;
+        const updatedPurchasable = updatedStack.length > 0;
 
         this.setState({
             ingredientsCounter: updatedCounter,
             ingredientsStack: updatedStack,
+            purchasable: updatedPurchasable,
             totalPrice: newPrice
         });
     }
@@ -98,6 +102,7 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
                     ingredientAdded={this.addIngredientHandler}
                     ingredientRemoved={this.removeIngredientHandler}
                     getDisabledInfo={this.getDisabledInfo}
+                    purchasable={this.state.purchasable}
                     price={this.state.totalPrice} 
                 />
             </Aux>
