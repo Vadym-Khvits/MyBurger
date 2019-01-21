@@ -15,6 +15,7 @@ const controls = [
 interface IPassedProps extends React.Props<any> {
     ingredientAdded: (type: string) => void;
     ingredientRemoved: (type: string) => void;
+    getDisabledInfo: (type: string) => boolean;
     price: number;
 }
 
@@ -34,11 +35,11 @@ class BuildControls extends React.Component<IPassedProps, any> {
                     <BuildControl
                         key={ctrl.label}
                         label={ctrl.label}
+                        disabled={this.props.getDisabledInfo(ctrl.type)}
                         // tslint:disable-next-line jsx-no-lambda
                         added={() => this.props.ingredientAdded(ctrl.type)}
                         // tslint:disable-next-line jsx-no-lambda
                         removed={() => this.props.ingredientRemoved(ctrl.type)}
-                        // disabled={() => this.props.disabled[ctrl.type]}
                     />
                 ))}
                 <button

@@ -86,6 +86,10 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
         });
     }
 
+    public getDisabledInfo = (type: string) => {
+        return this.state.ingredientsCounter[type] === 0;
+    }
+
     public render() {
         return (
             <Aux>
@@ -93,6 +97,7 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
                 <BuildControls
                     ingredientAdded={this.addIngredientHandler}
                     ingredientRemoved={this.removeIngredientHandler}
+                    getDisabledInfo={this.getDisabledInfo}
                     price={this.state.totalPrice} 
                 />
             </Aux>
