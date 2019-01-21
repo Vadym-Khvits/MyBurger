@@ -38,27 +38,7 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
     };
 
     public addIngredientHandler = (type: string) => {
-        const updatedCounter = {
-            ...this.state.ingredientsCounter
-        };
-        updatedCounter[type] = this.state.ingredientsCounter[type] + 1;
-
-        const updatedStack = [
-            ...this.state.ingredientsStack
-        ];
-        updatedStack.push(type);
-
-        const priceAddition = INGREDIENT_PRICES[type];
-        const oldPrice = this.state.totalPrice;
-        const newPrice = oldPrice + priceAddition;
-        const updatedPurchasable = updatedStack.length > 0;
-
-        this.setState({
-            ingredientsCounter: updatedCounter,
-            ingredientsStack: updatedStack,
-            purchasable: updatedPurchasable,
-            totalPrice: newPrice
-        });
+        this.updateIngredient(type, 1)
     }
 
     public removeIngredientHandler = (type: string) => {
@@ -66,28 +46,7 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
         if (oldCount === 0) {
             return;
         }
-        const updatedCounter = {
-            ...this.state.ingredientsCounter
-        };
-        updatedCounter[type] = this.state.ingredientsCounter[type] - 1;
-
-        const updatedStack = [
-            ...this.state.ingredientsStack
-        ];
-        const elementToRemove = updatedStack.lastIndexOf(type);
-        updatedStack.splice(elementToRemove, 1);
-
-        const priceAddition = INGREDIENT_PRICES[type];
-        const oldPrice = this.state.totalPrice;
-        const newPrice = oldPrice - priceAddition;
-        const updatedPurchasable = updatedStack.length > 0;
-
-        this.setState({
-            ingredientsCounter: updatedCounter,
-            ingredientsStack: updatedStack,
-            purchasable: updatedPurchasable,
-            totalPrice: newPrice
-        });
+        this.updateIngredient(type, -1);
     }
 
     public getDisabledInfo = (type: string) => {
@@ -107,6 +66,35 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
                 />
             </Aux>
         );
+    }
+
+    private updateIngredient = (type: string, increment: number) => {
+        const updatedCounter = {
+            ...this.state.ingredientsCounter
+        };
+        updatedCounter[type] = this.state.ingredientsCounter[type] + increment;
+
+        const updatedStack = [...this.state.ingredientsStack];
+        let priceAddition;
+        if (increment < 0) {
+            const elementToRemove = updatedStack.lastIndexOf(type);
+            updatedStack.splice(elementToRemove, 1);
+            priceAddition = -INGREDIENT_PRICES[type];
+        } else {
+            updatedStack.push(type);
+            priceAddition = INGREDIENT_PRICES[type];
+        }
+        
+        const oldPrice = this.state.totalPrice;
+        const newPrice = oldPrice + priceAddition;
+        const updatedPurchasable = updatedStack.length > 0;
+
+        this.setState({
+            ingredientsCounter: updatedCounter,
+            ingredientsStack: updatedStack,
+            purchasable: updatedPurchasable,
+            totalPrice: newPrice
+        });
     }
 }
 
