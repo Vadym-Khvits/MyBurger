@@ -16,6 +16,7 @@ interface IPassedProps extends React.Props<any> {
     ingredientAdded: (type: string) => void;
     ingredientRemoved: (type: string) => void;
     getDisabledInfo: (type: string) => boolean;
+    ordered: () => void;
     purchasable: boolean;
     price: number;
 }
@@ -46,6 +47,7 @@ class BuildControls extends React.Component<IPassedProps, any> {
                 <button
                     className={classes.OrderButton}
                     disabled={!this.props.purchasable}
+                    onClick={this.props.ordered}
                 >ORDER NOW</button>
             </div>)
     };

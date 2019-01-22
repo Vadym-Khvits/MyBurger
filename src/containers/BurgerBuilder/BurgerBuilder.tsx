@@ -16,6 +16,7 @@ const INGREDIENT_PRICES = {
 
 interface IOwnStateProps {
     purchasable: boolean;
+    purchasing: boolean;
     ingredientsStack: string[];
     ingredientsCounter: number;
     totalPrice: number;
@@ -35,6 +36,7 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
             },
             ingredientsStack: [] as string[],
             purchasable: false,
+            purchasing: false,
             totalPrice: 4
         };
     };
@@ -55,10 +57,16 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
         return this.state.ingredientsCounter[type] === 0;
     }
 
+    public purchaseHandler = () =>{
+        this.setState({
+            purchasing: true
+        })
+    }
+
     public render() {
         return (
             <Aux>
-                <Modal>
+                <Modal show={this.state.purchasing}>
                     <OrderSummary ingredients={this.state.ingredientsCounter}/>
                 </Modal>
                 <Burger ingredients={this.state.ingredientsStack} />
@@ -67,7 +75,8 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
                     ingredientRemoved={this.removeIngredientHandler}
                     getDisabledInfo={this.getDisabledInfo}
                     purchasable={this.state.purchasable}
-                    price={this.state.totalPrice} 
+                    ordered={this.purchaseHandler}
+                    price={this.state.totalPrice}
                 />
             </Aux>
         );
