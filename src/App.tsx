@@ -8,7 +8,6 @@ class App extends React.Component {
       <div>
         <Layout>
           <BurgerBuilder/>
-          <p>Loading...</p>
         </Layout>
       </div>
     );
