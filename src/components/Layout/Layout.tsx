@@ -5,26 +5,33 @@ import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
 import * as classes from './Layout.css';
 
 interface IOwnStateProps {
-    showSideDrawer: boolean;    
+    showSideDrawer: boolean;
 }
 
 class Layout extends React.Component<IOwnStateProps & any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            showSideDrawer: true
+            showSideDrawer: false
         };
     };
 
     public sideDrawerClosedHandler = () => {
         this.setState({showSideDrawer: false});
-    }    
+    }
+    
+    public sideDrawerToggleHandler = () => {
+        this.setState({showSideDrawer: true});
+    }
 
-    public render() {        
+    public render() {
         return (
         <Aux>
-            <Toolbar />
-            <SideDrawer open={this.state.showSideDrawer} closed={this.sideDrawerClosedHandler}/>
+            <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler}/>
+            <SideDrawer
+                open={this.state.showSideDrawer} 
+                closed={this.sideDrawerClosedHandler}
+            />
             <main className={classes.Content}>
                 {this.props.children}
             </main>
