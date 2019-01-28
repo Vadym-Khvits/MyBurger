@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import BuildControl from './BuildControl/BuildControl';
 import * as classes from './BuildControls.css';
 
@@ -12,7 +11,7 @@ const controls = [
     { label: 'Cucumber', type: 'Cucumber' }
 ];
 
-interface IPassedProps extends React.Props<any> {
+interface PassedProps extends React.Props<any> {
     ingredientAdded: (type: string) => void;
     ingredientRemoved: (type: string) => void;
     getDisabledInfo: (type: string) => boolean;
@@ -21,14 +20,14 @@ interface IPassedProps extends React.Props<any> {
     price: number;
 }
 
-class BuildControls extends React.Component<IPassedProps, any> {
+class BuildControls extends React.Component<PassedProps, any> {
     constructor(props: any) {
         super(props);
         this.state = {
         };
     };
 
-    public render() {
+    render() {
         const price = this.props.price.toFixed(2);
         return (
             <div className={classes.BuildControls}>
@@ -38,9 +37,7 @@ class BuildControls extends React.Component<IPassedProps, any> {
                         key={ctrl.label}
                         label={ctrl.label}
                         disabled={this.props.getDisabledInfo(ctrl.type)}
-                        // tslint:disable-next-line jsx-no-lambda
                         added={() => this.props.ingredientAdded(ctrl.type)}
-                        // tslint:disable-next-line jsx-no-lambda
                         removed={() => this.props.ingredientRemoved(ctrl.type)}
                     />
                 ))}

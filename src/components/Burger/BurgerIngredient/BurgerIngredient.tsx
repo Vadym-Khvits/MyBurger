@@ -12,16 +12,16 @@ export enum IngredientTypes {
     Cucumber = 'Cucumber'
 }
 
-interface IPassedProps extends React.Props<any> {
+interface PassedProps extends React.Props<any> {
     type: string;
 }
 
-class BurgerIngredient extends React.Component<IPassedProps, any> {
+class BurgerIngredient extends React.Component<PassedProps, any> {
     constructor(props: any) {
         super(props);
     };
 
-    public render() {
+    render() {
         let ingredient = null;
 
         switch (this.props.type) {

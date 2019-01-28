@@ -4,11 +4,11 @@ import Toolbar from '../Navigation/Toolbar/Toolbar';
 import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
 import * as classes from './Layout.css';
 
-interface IOwnStateProps {
+interface OwnStateProps {
     showSideDrawer: boolean;
 }
 
-class Layout extends React.Component<IOwnStateProps & any, any> {
+class Layout extends React.Component<OwnStateProps & any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -16,15 +16,15 @@ class Layout extends React.Component<IOwnStateProps & any, any> {
         };
     };
 
-    public sideDrawerClosedHandler = () => {
+    sideDrawerClosedHandler = () => {
         this.setState({showSideDrawer: false});
     }
     
-    public sideDrawerToggleHandler = () => {
+    sideDrawerToggleHandler = () => {
         this.setState({showSideDrawer: true});
     }
 
-    public render() {
+    render() {
         return (
         <Aux>
             <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler}/>

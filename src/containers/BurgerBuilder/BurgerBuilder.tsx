@@ -14,7 +14,7 @@ const INGREDIENT_PRICES = {
     Salad: 0.4
 };
 
-interface IOwnStateProps {
+interface OwnStateProps {
     purchasable: boolean;
     purchasing: boolean;
     ingredientsStack: string[];
@@ -22,7 +22,7 @@ interface IOwnStateProps {
     totalPrice: number;
 }
 
-class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
+class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -41,11 +41,11 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
         };
     };
 
-    public addIngredientHandler = (type: string) => {
+    addIngredientHandler = (type: string) => {
         this.updateIngredient(type, 1)
     }
 
-    public removeIngredientHandler = (type: string) => {
+    removeIngredientHandler = (type: string) => {
         const oldCount = this.state.ingredientsCounter[type];
         if (oldCount === 0) {
             return;
@@ -53,51 +53,27 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
         this.updateIngredient(type, -1);
     }
 
-    public getDisabledInfo = (type: string) => {
+    getDisabledInfo = (type: string) => {
         return this.state.ingredientsCounter[type] === 0;
     }
 
-    public purchaseHandler = () =>{
+    purchaseHandler = () =>{
         this.setState({
             purchasing: true
         })
     }
 
-    public purchaseCancelHandler = () =>{
+    purchaseCancelHandler = () =>{
         this.setState({
             purchasing: false
         })
     }
 
-    public purchaseContinueHandler = () =>{
+    purchaseContinueHandler = () =>{
         alert('You continue!');
     }
 
-    public render() {
-        return (
-            <Aux>
-                <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-                    <OrderSummary
-                        ingredients={this.state.ingredientsCounter}
-                        price={this.state.totalPrice}
-                        purchaseCancelled={this.purchaseCancelHandler}
-                        purchaseContinued={this.purchaseContinueHandler}
-                    />
-                </Modal>
-                <Burger ingredients={this.state.ingredientsStack} />
-                <BuildControls
-                    ingredientAdded={this.addIngredientHandler}
-                    ingredientRemoved={this.removeIngredientHandler}
-                    getDisabledInfo={this.getDisabledInfo}
-                    purchasable={this.state.purchasable}
-                    ordered={this.purchaseHandler}
-                    price={this.state.totalPrice}
-                />
-            </Aux>
-        );
-    }
-
-    private updateIngredient = (type: string, increment: number) => {
+    updateIngredient = (type: string, increment: number) => {
         const updatedCounter = {
             ...this.state.ingredientsCounter
         };
@@ -125,6 +101,30 @@ class BurgerBuilder extends React.Component<IOwnStateProps & any, any> {
             totalPrice: newPrice
         });
     }
+
+    render() {
+        return (
+            <Aux>
+                <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
+                    <OrderSummary
+                        ingredients={this.state.ingredientsCounter}
+                        price={this.state.totalPrice}
+                        purchaseCancelled={this.purchaseCancelHandler}
+                        purchaseContinued={this.purchaseContinueHandler}
+                    />
+                </Modal>
+                <Burger ingredients={this.state.ingredientsStack} />
+                <BuildControls
+                    ingredientAdded={this.addIngredientHandler}
+                    ingredientRemoved={this.removeIngredientHandler}
+                    getDisabledInfo={this.getDisabledInfo}
+                    purchasable={this.state.purchasable}
+                    ordered={this.purchaseHandler}
+                    price={this.state.totalPrice}
+                />
+            </Aux>
+        );
+    }    
 }
 
 export default BurgerBuilder;

@@ -4,16 +4,16 @@ import { IngredientTypes } from './BurgerIngredient/BurgerIngredient';
 
 import * as styles from './Burger.css';
 
-interface IPassedProps {
+interface PassedProps {
     ingredients: string[];
 }
 
-class Burger extends React.Component<IPassedProps, any> {
+class Burger extends React.Component<PassedProps, any> {
     constructor(props: any) {
         super(props);
     };
 
-    public render() {
+    render() {
         let layer = 1;
         let inputIngredients = null;
         if (this.props.ingredients) {
