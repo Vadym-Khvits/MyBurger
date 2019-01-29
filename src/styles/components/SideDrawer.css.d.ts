@@ -6,3 +6,5 @@ export const Close: string;
 export const close: string;
 export const Logo: string;
 export const logo: string;
+export const DrawerToggle: string;
+export const drawerToggle: string;

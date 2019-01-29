@@ -2,7 +2,7 @@ import * as React from 'react';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 import { IngredientTypes } from './BurgerIngredient/BurgerIngredient';
 
-import * as styles from './Burger.css';
+import * as styles from '../../styles/components/Burger.css';
 
 interface PassedProps {
     ingredients: string[];

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './BurgerIngredient.css';
+import * as styles from '../../../styles/components/Burger.css';
 
 export enum IngredientTypes {
     BreadBottom = 'BreadBottom',

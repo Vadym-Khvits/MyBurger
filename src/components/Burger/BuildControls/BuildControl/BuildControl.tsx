@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-import * as classes from './BuildControl.css';
+import * as classes from '../../../../styles/components/Burger.css';
 
 const buildControl = (props: any) => (
     <div className={classes.BuildControl}>
