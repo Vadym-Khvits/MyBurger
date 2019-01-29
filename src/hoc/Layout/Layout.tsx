@@ -2,7 +2,7 @@ import * as React from 'react';
 import Aux from '../../hoc/_Aux';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
-import * as classes from './Layout.css';
+import * as classes from '../../styles/hoc/Layout.css';
 
 interface OwnStateProps {
     showSideDrawer: boolean;
