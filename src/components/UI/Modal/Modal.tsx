@@ -20,7 +20,8 @@ class Modal extends React.Component<any> {
                 <div
                     className={classes.Modal}
                     style={{
-                        transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)'
+                        transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
+                        display: this.props.show ? 'inline' : 'none'
                     }}
                 >
                     {this.props.children}
