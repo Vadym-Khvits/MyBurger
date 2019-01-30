@@ -4,6 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Modal from '../../components/UI/Modal/Modal';
 import Aux from '../../hoc/_Aux';
+import axios from '../../axios-orders';
 
 const INGREDIENT_PRICES = {
     Bacon: 1.4,
@@ -57,20 +58,38 @@ class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
         return this.state.ingredientsCounter[type] === 0;
     }
 
-    purchaseHandler = () =>{
+    purchaseHandler = () => {
         this.setState({
             purchasing: true
         })
     }
 
-    purchaseCancelHandler = () =>{
+    purchaseCancelHandler = () => {
         this.setState({
             purchasing: false
         })
     }
 
-    purchaseContinueHandler = () =>{
-        alert('You continue!');
+    purchaseContinueHandler = () => {
+        const order = {
+            ingredientsCounter: this.state.ingredientsCounter,
+            price: this.state.totalPrice,
+            customer: {
+                name: 'Vadym',
+                adress: {
+                    street: 'Chapter10 street',
+                    zioCode: '121212',
+                    country: 'Ukraine'
+                },
+                email: 'test@test.com'
+            },
+            deliveryMethod: 'fastest'
+        }
+
+        axios.post('/orders.json', order)
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
+        alert('Your order was received!');
     }
 
     updateIngredient = (type: string, increment: number) => {
