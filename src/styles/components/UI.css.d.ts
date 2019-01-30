@@ -8,3 +8,6 @@ export const Danger: string;
 export const danger: string;
 export const Backdrop: string;
 export const backdrop: string;
+export const Loader: string;
+export const loader: string;
+export const load2: string;

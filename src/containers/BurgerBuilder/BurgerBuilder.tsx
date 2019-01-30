@@ -3,6 +3,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Modal from '../../components/UI/Modal/Modal';
+import Spinner from '../../components/UI/Spinner/Spinner';
 import Aux from '../../hoc/_Aux';
 import axios from '../../axios-orders';
 
@@ -21,6 +22,7 @@ interface OwnStateProps {
     ingredientsStack: string[];
     ingredientsCounter: number;
     totalPrice: number;
+    loading: boolean;
 }
 
 class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
@@ -38,6 +40,7 @@ class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
             ingredientsStack: [] as string[],
             purchasable: false,
             purchasing: false,
+            loading: false,
             totalPrice: 4
         };
     };
@@ -71,6 +74,7 @@ class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
     }
 
     purchaseContinueHandler = () => {
+        this.updateLoading(true);
         const order = {
             ingredientsCounter: this.state.ingredientsCounter,
             price: this.state.totalPrice,
@@ -87,9 +91,21 @@ class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
         }
 
         axios.post('/orders.json', order)
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
+            .then(response => this.reportResponse(response))
+            .catch(error => this.reportResponse(error));
         alert('Your order was received!');
+    }
+
+    reportResponse = (response: any) => {
+        console.log(response);
+        this.updateLoading(false);
+        this.setState({ purchasing: false });
+    }
+
+    updateLoading = (isLoading: boolean) => {
+        this.setState({ 
+            loading: isLoading 
+        });
     }
 
     updateIngredient = (type: string, increment: number) => {
@@ -122,15 +138,19 @@ class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
     }
 
     render() {
+        const orderSummary = !this.state.loading ?
+            <OrderSummary
+                ingredients={this.state.ingredientsCounter}
+                price={this.state.totalPrice}
+                purchaseCancelled={this.purchaseCancelHandler}
+                purchaseContinued={this.purchaseContinueHandler}
+            /> 
+            : <Spinner />;
+
         return (
             <Aux>
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-                    <OrderSummary
-                        ingredients={this.state.ingredientsCounter}
-                        price={this.state.totalPrice}
-                        purchaseCancelled={this.purchaseCancelHandler}
-                        purchaseContinued={this.purchaseContinueHandler}
-                    />
+                    {orderSummary}
                 </Modal>
                 <Burger ingredients={this.state.ingredientsStack} />
                 <BuildControls

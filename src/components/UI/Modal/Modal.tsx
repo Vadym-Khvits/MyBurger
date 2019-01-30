@@ -6,7 +6,7 @@ import * as classes from '../../../styles/components/UI.css';
 class Modal extends React.Component<any> {
 
     shouldComponentUpdate(nextProps: any) {
-        return nextProps.show !== this.props.show;
+        return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
     }
 
     componentWillUpdate() {
