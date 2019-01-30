@@ -5,6 +5,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Modal from '../../components/UI/Modal/Modal';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Aux from '../../hoc/_Aux';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler.js';
 import axios from '../../axios-orders';
 
 const INGREDIENT_PRICES = {
@@ -93,7 +94,6 @@ class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
         axios.post('/orders.json', order)
             .then(response => this.reportResponse(response))
             .catch(error => this.reportResponse(error));
-        alert('Your order was received!');
     }
 
     reportResponse = (response: any) => {
@@ -166,4 +166,4 @@ class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
     }    
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, axios);
