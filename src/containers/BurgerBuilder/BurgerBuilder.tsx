@@ -21,30 +21,35 @@ interface OwnStateProps {
     purchasable: boolean;
     purchasing: boolean;
     ingredientsStack: string[];
-    ingredientsCounter: number;
+    ingredientsCounter: any;
     totalPrice: number;
     loading: boolean;
+    error: boolean;
 }
 
 class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            ingredientsCounter: {
-                Bacon: 0,
-                Cheese: 0,
-                Cucumber: 0,
-                Ketchup: 0,
-                Meat: 0,
-                Salad: 0
-            },
+            ingredientsCounter: null,
             ingredientsStack: [] as string[],
             purchasable: false,
             purchasing: false,
             loading: false,
-            totalPrice: 4
+            totalPrice: 4,
+            error: false
         };
     };
+
+    componentDidMount () {
+        axios.get('/ingredientsCounter.json')
+        .then(response => {
+            this.setState({ ingredientsCounter: response.data })
+        })
+        .catch(error => {
+            this.setState({ error: true });
+        });
+    }
 
     addIngredientHandler = (type: string) => {
         this.updateIngredient(type, 1)
@@ -138,13 +143,33 @@ class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
     }
 
     render() {
+        let burger = this.state.error === true ?
+            <p>Ingredients can't be loaded!</p> : <Spinner />
+
+        if (this.state.ingredientsCounter) {
+            burger =
+                <Aux>
+                    <Burger ingredients={this.state.ingredientsStack} />
+                    <BuildControls
+                        ingredientAdded={this.addIngredientHandler}
+                        ingredientRemoved={this.removeIngredientHandler}
+                        getDisabledInfo={this.getDisabledInfo}
+                        purchasable={this.state.purchasable}
+                        ordered={this.purchaseHandler}
+                        price={this.state.totalPrice}
+                    />
+                </Aux>
+        }
+
         const orderSummary = !this.state.loading ?
-            <OrderSummary
-                ingredients={this.state.ingredientsCounter}
-                price={this.state.totalPrice}
-                purchaseCancelled={this.purchaseCancelHandler}
-                purchaseContinued={this.purchaseContinueHandler}
-            /> 
+            this.state.ingredientsCounter ?
+                <OrderSummary
+                    ingredients={this.state.ingredientsCounter}
+                    price={this.state.totalPrice}
+                    purchaseCancelled={this.purchaseCancelHandler}
+                    purchaseContinued={this.purchaseContinueHandler}
+                />
+                : null
             : <Spinner />;
 
         return (
@@ -152,18 +177,10 @@ class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
                     {orderSummary}
                 </Modal>
-                <Burger ingredients={this.state.ingredientsStack} />
-                <BuildControls
-                    ingredientAdded={this.addIngredientHandler}
-                    ingredientRemoved={this.removeIngredientHandler}
-                    getDisabledInfo={this.getDisabledInfo}
-                    purchasable={this.state.purchasable}
-                    ordered={this.purchaseHandler}
-                    price={this.state.totalPrice}
-                />
+                {burger}
             </Aux>
         );
-    }    
+    }
 }
 
 export default withErrorHandler(BurgerBuilder, axios);
