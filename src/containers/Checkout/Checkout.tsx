@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { IngredientTypes } from '../../components/Burger/BurgerIngredient/BurgerIngredient';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 
 interface OwnStateProps {
@@ -11,18 +10,36 @@ class Checkout extends Component<OwnStateProps & any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            ingredients: [
-                IngredientTypes.Salad,
-                IngredientTypes.Meat,
-                IngredientTypes.Cheese
-            ]
+            ingredients: []
         };
     };
+
+    componentDidMount() {
+        const searchParams = new URLSearchParams(this.props.location.search);
+        const ingredients = [] as string[];
+        searchParams.forEach ((value: string, key: string) => {
+            ingredients.push(key);
+            console.log(key);
+        });
+        this.setState({ ingredients: [...ingredients] });
+    }
+
+    checkoutCancelledHandler = () => {
+        this.props.history.goBack();
+    }
+
+    checkoutContinuedHandler = () => {
+        this.props.history.replace('/checkout/contact-data');
+    }
 
     render() {
         return (
             <div>
-                <CheckoutSummary ingredients={this.state.ingredients} />
+                <CheckoutSummary
+                    ingredients={this.state.ingredients}
+                    checkoutCancelled={this.checkoutCancelledHandler}
+                    checkoutContinued={this.checkoutContinuedHandler}
+                />
             </div>
         );
     }
