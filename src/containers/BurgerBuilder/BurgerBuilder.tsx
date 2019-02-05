@@ -102,9 +102,12 @@ class BurgerBuilder extends React.Component<OwnStateProps & any, any> {
         // this.props.history.push('/checkout')
         // const ingsStack = this.state.ingredientsStack;
         
+
+        const queryParams = [...this.state.ingredientsStack];
+        queryParams.push('price=' + this.state.totalPrice)
         this.props.history.push({
             pathname: '/checkout',
-            search: '?' + this.state.ingredientsStack.join('&')
+            search: '?' + queryParams.join('&')
         })
     }
 

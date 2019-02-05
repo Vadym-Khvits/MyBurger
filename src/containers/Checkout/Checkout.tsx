@@ -1,27 +1,39 @@
 import * as React from 'react';
 import { Component } from 'react';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
+import { Route } from 'react-router-dom';
+import ContactData from './ContactData/ContactData';
 
 interface OwnStateProps {
     ingredients: string[];
+    price: number;
 }
 
 class Checkout extends Component<OwnStateProps & any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            ingredients: []
+            ingredients: [],
+            price: 0
         };
     };
 
-    componentDidMount() {
+    componentWillMount() {
         const searchParams = new URLSearchParams(this.props.location.search);
         const ingredients = [] as string[];
+        let price = 0;
         searchParams.forEach ((value: string, key: string) => {
-            ingredients.push(key);
-            console.log(key);
+            if (key === 'price') {
+                price = +value;
+            } else {
+                ingredients.push(key);
+                console.log(key);
+            }            
         });
-        this.setState({ ingredients: [...ingredients] });
+        this.setState({ 
+            ingredients: [...ingredients],
+            price
+         });
     }
 
     checkoutCancelledHandler = () => {
@@ -39,6 +51,10 @@ class Checkout extends Component<OwnStateProps & any, any> {
                     ingredients={this.state.ingredients}
                     checkoutCancelled={this.checkoutCancelledHandler}
                     checkoutContinued={this.checkoutContinuedHandler}
+                />
+                <Route
+                    path={this.props.match.path + '/contact-data/'}
+                    render={(props) => (<ContactData ingredients={this.state.ingredients} price={this.state.price} {...props} />)}
                 />
             </div>
         );
