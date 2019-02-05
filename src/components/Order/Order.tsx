@@ -3,19 +3,17 @@ import * as classes from '../../styles/components/Order.css';
 
 const order = ( props: any ) => {
     const ingredients = [];
-
-    // if(props.ingredients){
-    for (const ingredientName in props.ingredients) {
-        if(ingredientName){
+    
+    for (const layerNumber in props.ingredients) {
+        if(layerNumber){
             ingredients.push(
                 {
-                    name: ingredientName,
-                    amount: props.ingredients[ingredientName]
+                    layer: layerNumber,
+                    name: props.ingredients[layerNumber]
                 }
             );
         }        
     }
-// }
 
     const ingredientOutput = ingredients.map(ig => {
         return <span 
@@ -26,7 +24,7 @@ const order = ( props: any ) => {
                 border: '1px solid #ccc',
                 padding: '5px'
                 }}
-            key={ig.name}>{ig.name} ({ig.amount})</span>;
+            key={ig.layer}>{ig.layer} ({ig.name})</span>;
     });
 
     return (

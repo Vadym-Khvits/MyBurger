@@ -32,7 +32,7 @@ class Checkout extends Component<OwnStateProps & any, any> {
         });
         this.setState({ 
             ingredients: [...ingredients],
-            price: price.toFixed(2)
+            price
          });
     }
 
