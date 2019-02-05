@@ -46,6 +46,11 @@
     color: #944317;
 }
 
+.Button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
 /* Backdrop */
 .Backdrop {
     width: 100%;
@@ -153,4 +158,9 @@
 .InputElement:focus {
   outline: none;
   background-color: #ccc;
+}
+
+.Invalid {
+  border: 1px solid red;
+  background-color: #FDA49A;
 }
