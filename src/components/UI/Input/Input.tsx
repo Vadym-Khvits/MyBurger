@@ -4,11 +4,12 @@ import * as classes from '../../../styles/components/UI.css';
 const input = (props: any) => {
     let inputElement = null;
 
-    switch (props.inputtype) {
+    switch (props.elementType) {
         case ('input'):
             inputElement = <input
                 className={classes.InputElement}
-                {...props}                
+                {...props.elementConfig}
+                value={props.value}
                 onChange={props.changed} />;
             break;
         case ('textarea'):
@@ -35,12 +36,8 @@ const input = (props: any) => {
         default:
             inputElement = <input
                 className={classes.InputElement}
-                {...props}
-                // {...props.elementConfig}
-                // type={props.type}
-                // name={props.name}
-                // placeholder={props.placeholder}
-                // value={props.value}
+                {...props.elementConfig}
+                value={props.value}
                 onChange={props.changed} />;
     }
 
