@@ -28,7 +28,7 @@ class BuildControls extends React.Component<PassedProps, any> {
     };
 
     render() {
-        const price = this.props.price.toFixed(2);
+        const price = this.props.price ? this.props.price.toFixed(2) : null;
         return (
             <div className={classes.BuildControls}>
                 <p>Current Price: <strong>{price}</strong></p>

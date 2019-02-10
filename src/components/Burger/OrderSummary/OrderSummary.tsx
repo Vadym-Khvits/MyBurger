@@ -16,6 +16,8 @@ class OrderSummary extends React.Component<any> {
                 </li>);
         });
 
+        const price = this.props.price ? this.props.price.toFixed(2) : null;
+
         return (
             <Aux>
                 <h3>Your Order</h3>
@@ -23,7 +25,7 @@ class OrderSummary extends React.Component<any> {
                 <ul>
                     {ingredientSummary}
                 </ul>
-                <p><strong>Total Price: {this.props.price.toFixed(2)}</strong></p>
+                <p><strong>Total Price: {price}</strong></p>
                 <p>Continue to Checkout?</p>
                 <Button btnType="Danger" clicked={this.props.purchaseCancelled}>CANCEL</Button>
                 <Button btnType="Success" clicked={this.props.purchaseContinued}>CONTINUE</Button>

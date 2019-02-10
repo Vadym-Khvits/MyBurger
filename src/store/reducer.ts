@@ -1,6 +1,13 @@
 import * as actionTypes from './actions';
-// import { IngredientTypes } from 'src/components/Burger/BurgerIngredient/BurgerIngredient';
-// import INGREDIENT_PRICES from 'src/containers/BurgerBuilder/BurgerBuilder'
+
+const INGREDIENT_PRICES = {
+    Bacon: 1.4,
+    Cheese: 0.5,
+    Cucumber: 0.3,
+    Ketchup: 0.2,
+    Meat: 1.4,
+    Salad: 0.4
+};
 
 const initialState = {
     ingredientsCounter: {
@@ -12,76 +19,46 @@ const initialState = {
         Salad: 0
     },
     ingredientsStack: [] as string[],
-    // totalPrice: 4
+    purchasable: false,
+    totalPrice: 4
 };
 
-// export const addIngredientHandler = (type: string) => {
-//     this.updateIngredient(type, 1)
-// }
+const updateBurgerBuilder = (state: any, type: string, increment: number) => {
+    const updatedCounter = {
+        ...state.ingredientsCounter
+    };
+    updatedCounter[type] = state.ingredientsCounter[type] + increment;
 
-// export const removeIngredientHandler = (type: string) => {
-//     const oldCount = this.state.ingredientsCounter[type];
-//     if (oldCount === 0) {
-//         return;
-//     }
-//     this.updateIngredient(type, -1);
-// }
+    const updatedStack = [...state.ingredientsStack];
+    let priceAddition;
+    if (increment < 0) {
+        const elementToRemove = updatedStack.lastIndexOf(type);
+        updatedStack.splice(elementToRemove, 1);
+        priceAddition = -INGREDIENT_PRICES[type];
+    } else {
+        updatedStack.push(type);
+        priceAddition = INGREDIENT_PRICES[type];
+    }
 
-// const updateIngredient = (type: string, increment: number) => {
-//     const updatedCounter = {
-//         ...this.state.ingredientsCounter
-//     };
-//     updatedCounter[type] = this.state.ingredientsCounter[type] + increment;
+    const oldPrice = state.totalPrice;
+    const newPrice = oldPrice + priceAddition;
+    const updatedPurchasable = updatedStack.length > 0;
 
-//     const updatedStack = [...this.state.ingredientsStack];
-//     let priceAddition;
-//     if (increment < 0) {
-//         const elementToRemove = updatedStack.lastIndexOf(type);
-//         updatedStack.splice(elementToRemove, 1);
-//         priceAddition = -INGREDIENT_PRICES[type];
-//     } else {
-//         updatedStack.push(type);
-//         priceAddition = INGREDIENT_PRICES[type];
-//     }
-    
-//     const oldPrice = this.state.totalPrice;
-//     const newPrice = oldPrice + priceAddition;
-//     const updatedPurchasable = updatedStack.length > 0;
-
-//     this.setState({
-//         ingredientsCounter: updatedCounter,
-//         ingredientsStack: updatedStack,
-//         purchasable: updatedPurchasable,
-//         totalPrice: newPrice
-//     });
-// }
+    return {
+        ...state,
+        ingredientsCounter: updatedCounter,
+        ingredientsStack: updatedStack,
+        purchasable: updatedPurchasable,
+        totalPrice: newPrice
+    };
+}
 
 const reducer = (state = initialState, action: any) => {
     switch ( action.type ) {
         case actionTypes.ADD_INGREDIENT:
-            return {
-                ...state,
-                ingredientsCounter: {
-                    ...state.ingredientsCounter,
-                    [action.ingredientName]: state.ingredientsCounter[action.ingredientName] + 1
-                },
-                ingredientsStack: {
-                    ...state.ingredientsStack // please rewise logic
-                },
-                // totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
-            };
+            return updateBurgerBuilder(state, action.ingredientName, 1);
         case actionTypes.REMOVE_INGREDIENT:
-            return {
-                ...state,
-                ingredientsCounter: {
-                    ...state.ingredientsCounter,
-                    [action.ingredientName]: state.ingredientsCounter[action.ingredientName] - 1
-                },
-                ingredientsStack: {
-                    ...state.ingredientsStack // please rewise logic
-                },
-                // totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
-            };
+            return updateBurgerBuilder(state, action.ingredientName, -1);
         default:
             return state;
     }
