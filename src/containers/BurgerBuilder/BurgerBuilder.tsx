@@ -60,12 +60,7 @@ class BurgerBuilder extends React.Component<OwnStateProps & StateFromProps & any
     }
 
     purchaseContinueHandler = () => {
-        const queryParams = [...this.props.ingredientsStack];
-        queryParams.push('price=' + this.props.totalPrice);
-        this.props.history.push({
-            pathname: '/checkout',
-            search: '?' + queryParams.join('&')
-        })
+        this.props.history.push('/checkout');
     }
 
     reportResponse = (response: any) => {

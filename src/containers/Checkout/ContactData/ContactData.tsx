@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import * as classes from '../../../styles/containers/Checkout.css';
 import axios from '../../../axios-orders';
 
-interface PassedProps {
+interface StateFromProps {
     ingredients: string[];
     price: number;
 }
 
-class ContactData extends Component<PassedProps & any, any> {
+class ContactData extends Component<StateFromProps & any, any> {
     state = {
         orderForm: {
             name: {
@@ -201,4 +202,11 @@ class ContactData extends Component<PassedProps & any, any> {
     }
 }
 
-export default ContactData;
+const mapStateToProps = (state: any): StateFromProps => {
+    return {
+        ingredients: state.ingredientsStack,
+        price: state.totalPrice
+    }
+};
+
+export default connect(mapStateToProps) (ContactData);
