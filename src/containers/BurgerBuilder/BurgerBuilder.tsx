@@ -15,32 +15,25 @@ interface StateFromProps {
     ingredientsCounter: any;
     purchasable: boolean;
     totalPrice: number;
+    error: boolean;
 }
 
 interface OwnStateProps {
     purchasing: boolean;
-    loading: boolean;
-    error: boolean;
+    // loading: boolean;
 }
 
 class BurgerBuilder extends React.Component<OwnStateProps & StateFromProps & any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            purchasing: false,
-            loading: false,
-            error: false
+            purchasing: false
+            // loading: false
         };
     };
 
-    componentDidMount () {
-        // axios.get('/ingredientsCounter.json')
-        // .then(response => {
-        //     this.setState({ ingredientsCounter: response.data })
-        // })
-        // .catch(error => {
-        //     this.setState({ error: true });
-        // });
+    componentDidMount () {  
+        this.props.onInitIngredients();
     }
 
     getDisabledInfo = (type: string) => {
@@ -64,19 +57,19 @@ class BurgerBuilder extends React.Component<OwnStateProps & StateFromProps & any
     }
 
     reportResponse = (response: any) => {
-        console.log(response);
-        this.updateLoading(false);
+        // console.log(response);
+        // this.updateLoading(false);
         this.setState({ purchasing: false });
     }
 
-    updateLoading = (isLoading: boolean) => {
-        this.setState({ 
-            loading: isLoading 
-        });
-    }
+    // updateLoading = (isLoading: boolean) => {
+    //     this.setState({ 
+    //         loading: isLoading 
+    //     });
+    // }
 
     render() {
-        let burger = this.state.error === true ?
+        let burger = this.props.error === true ?
             <p>Ingredients can't be loaded!</p> : <Spinner />
 
         if (this.props.ingredientsCounter) {
@@ -94,16 +87,14 @@ class BurgerBuilder extends React.Component<OwnStateProps & StateFromProps & any
                 </Aux>
         }
 
-        const orderSummary = !this.state.loading ?
-            this.props.ingredientsCounter ?
+        const orderSummary = this.props.ingredientsCounter ?
                 <OrderSummary
                     ingredients={this.props.ingredientsCounter}
                     price={this.props.totalPrice}
                     purchaseCancelled={this.purchaseCancelHandler}
                     purchaseContinued={this.purchaseContinueHandler}
                 />
-                : null
-            : <Spinner />;
+                : null;
 
         return (
             <Aux>
@@ -121,14 +112,16 @@ const mapStateToProps = (state: any): StateFromProps => {
         ingredientsCounter: state.ingredientsCounter,
         ingredientsStack: state.ingredientsStack,
         purchasable: state.purchasable,
-        totalPrice: state.totalPrice
+        totalPrice: state.totalPrice,
+        error: state.error
     };
 }
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
         onIngredientAdded: (ingName: string) => dispatch(burgerBuilderActions.addIngredient(ingName)),
-        onIngredientRemoved: (ingName: string) => dispatch(burgerBuilderActions.removeIngredient(ingName))
+        onIngredientRemoved: (ingName: string) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients())
     }
 }
 

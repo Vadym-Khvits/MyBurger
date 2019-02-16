@@ -10,17 +10,11 @@ const INGREDIENT_PRICES = {
 };
 
 const initialState = {
-    ingredientsCounter: {
-        Bacon: 0,
-        Cheese: 0,
-        Cucumber: 0,
-        Ketchup: 0,
-        Meat: 0,
-        Salad: 0
-    },
+    ingredientsCounter: null,
     ingredientsStack: [] as string[],
     purchasable: false,
-    totalPrice: 4
+    totalPrice: 4,
+    error: false
 };
 
 const updateBurgerBuilder = (state: any, type: string, increment: number) => {
@@ -59,6 +53,24 @@ const reducer = (state = initialState, action: any) => {
             return updateBurgerBuilder(state, action.ingredientName, 1);
         case actionTypes.REMOVE_INGREDIENT:
             return updateBurgerBuilder(state, action.ingredientName, -1);
+        case actionTypes.SET_INGREDIENTS:
+            return {
+                ...state,
+                ingredientsCounter: {
+                    Bacon: action.ingredientsCounter.Bacon,
+                    Cheese: action.ingredientsCounter.Cheese,
+                    Cucumber: action.ingredientsCounter.Cucumber,
+                    Ketchup: action.ingredientsCounter.Ketchup,
+                    Meat: action.ingredientsCounter.Meat,
+                    Salad: action.ingredientsCounter.Salad
+                },
+                error: false
+            };
+        case actionTypes.FETCH_INGREDIENTS_FAILED:
+            return {
+                ...state,
+                error: true
+            };
         default:
             return state;
     }
