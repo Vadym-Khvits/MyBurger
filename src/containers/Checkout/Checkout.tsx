@@ -6,7 +6,7 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import ContactData from './ContactData/ContactData';
 
 interface StateFromProps {
-    ingredients: string[];
+    ingredientsStack: string[];
 }
 
 class Checkout extends Component<StateFromProps & any, any> {
@@ -38,7 +38,7 @@ class Checkout extends Component<StateFromProps & any, any> {
 
 const mapStateToProps = (state: any): StateFromProps => {
     return {
-        ingredients: state.ingredientsStack
+        ingredientsStack: state.ingredientsStack
     }
 };
 

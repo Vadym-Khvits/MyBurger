@@ -47,7 +47,7 @@ const updateBurgerBuilder = (state: any, type: string, increment: number) => {
     };
 }
 
-const reducer = (state = initialState, action: any) => {
+const burgerBuilderReducer = (state = initialState, action: any) => {
     switch ( action.type ) {
         case actionTypes.ADD_INGREDIENT:
             return updateBurgerBuilder(state, action.ingredientName, 1);
@@ -76,4 +76,4 @@ const reducer = (state = initialState, action: any) => {
     }
 };
 
-export default reducer;
+export default burgerBuilderReducer;
