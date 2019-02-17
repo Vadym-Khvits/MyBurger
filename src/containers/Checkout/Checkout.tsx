@@ -7,10 +7,10 @@ import ContactData from './ContactData/ContactData';
 
 interface StateFromProps {
     ingredientsStack: string[];
+    purchased: boolean;
 }
 
 class Checkout extends Component<StateFromProps & any, any> {
-
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
     }
@@ -23,10 +23,10 @@ class Checkout extends Component<StateFromProps & any, any> {
         const { ingredientsStack } = this.props;
         let summary = <Redirect to="/" />
         if (ingredientsStack && ingredientsStack.length > 0) {
-            // const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
+            const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
             summary = (
                 <div>
-                    {/* {purchasedRedirect} */}
+                    {purchasedRedirect}
                     <CheckoutSummary
                         ingredients={this.props.ingredientsStack}
                         checkoutCancelled={this.checkoutCancelledHandler}
@@ -45,7 +45,8 @@ class Checkout extends Component<StateFromProps & any, any> {
 
 const mapStateToProps = (state: any): StateFromProps => {
     return {
-        ingredientsStack: state.ingredientsStack
+        ingredientsStack: state.burgerBuilder.ingredientsStack,
+        purchased: state.order.purchased
     }
 };
 

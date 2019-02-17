@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as burgerBuilderActions from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
@@ -20,7 +20,6 @@ interface StateFromProps {
 
 interface OwnStateProps {
     purchasing: boolean;
-    // loading: boolean;
 }
 
 class BurgerBuilder extends React.Component<OwnStateProps & StateFromProps & any, any> {
@@ -28,11 +27,10 @@ class BurgerBuilder extends React.Component<OwnStateProps & StateFromProps & any
         super(props);
         this.state = {
             purchasing: false
-            // loading: false
         };
     };
 
-    componentDidMount () {  
+    componentDidMount() {
         this.props.onInitIngredients();
     }
 
@@ -53,20 +51,13 @@ class BurgerBuilder extends React.Component<OwnStateProps & StateFromProps & any
     }
 
     purchaseContinueHandler = () => {
+        this.props.onInitPurchase();
         this.props.history.push('/checkout');
     }
 
     reportResponse = (response: any) => {
-        // console.log(response);
-        // this.updateLoading(false);
         this.setState({ purchasing: false });
     }
-
-    // updateLoading = (isLoading: boolean) => {
-    //     this.setState({ 
-    //         loading: isLoading 
-    //     });
-    // }
 
     render() {
         let burger = this.props.error === true ?
@@ -109,19 +100,20 @@ class BurgerBuilder extends React.Component<OwnStateProps & StateFromProps & any
 
 const mapStateToProps = (state: any): StateFromProps => {
     return {
-        ingredientsCounter: state.ingredientsCounter,
-        ingredientsStack: state.ingredientsStack,
-        purchasable: state.purchasable,
-        totalPrice: state.totalPrice,
-        error: state.error
+        ingredientsCounter: state.burgerBuilder.ingredientsCounter,
+        ingredientsStack: state.burgerBuilder.ingredientsStack,
+        purchasable: state.burgerBuilder.purchasable,
+        totalPrice: state.burgerBuilder.totalPrice,
+        error: state.burgerBuilder.error
     };
 }
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        onIngredientAdded: (ingName: string) => dispatch(burgerBuilderActions.addIngredient(ingName)),
-        onIngredientRemoved: (ingName: string) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
-        onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients())
+        onIngredientAdded: (ingName: string) => dispatch(actions.addIngredient(ingName)),
+        onIngredientRemoved: (ingName: string) => dispatch(actions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(actions.initIngredients()),
+        onInitPurchase: () => dispatch(actions.purchaseInit())
     }
 }
 

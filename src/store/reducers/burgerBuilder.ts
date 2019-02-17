@@ -64,6 +64,9 @@ const burgerBuilderReducer = (state = initialState, action: any) => {
                     Meat: action.ingredientsCounter.Meat,
                     Salad: action.ingredientsCounter.Salad
                 },
+                ingredientsStack: [] as string[],
+                purchasable: false,
+                totalPrice: 4,
                 error: false
             };
         case actionTypes.FETCH_INGREDIENTS_FAILED:
