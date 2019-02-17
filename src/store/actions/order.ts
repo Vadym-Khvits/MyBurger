@@ -5,14 +5,14 @@ export const purchaseBurgerSuccess = (id: any, orderData: any) => {
     return {
         type: actionTypes.PURCHASE_BURGER_SUCCESS,
         orderId: id,
-        orderData: {orderData}
+        orderData: {...orderData}
     };
 };
 
 export const purchaseBurgerFail = (error: any) => {
     return {
         type: actionTypes.PURCHASE_BURGER_FAIL,
-        error: {error}
+        error: {...error}
     };
 }
 
@@ -42,17 +42,17 @@ export const purchaseInit = () => {
     };
 };
 
-export const fetchOrdersSuccess = (orders: any) => {
+export const fetchOrdersSuccess = (orders: any[]) => {
     return {
         type: actionTypes.FETCH_ORDERS_SUCCESS,
-        orders: {orders}
+        orders: [...orders]
     };
 };
 
 export const fetchOrdersFail = (error: any) => {
     return {
         type: actionTypes.FETCH_ORDERS_FAIL,
-        error: {error}
+        error: {...error}
     };
 };
 
@@ -69,7 +69,7 @@ export const fetchOrders = () => {
             .then( res => {
                 const fetchedOrders = [];
                 for (const key in res.data) {
-                    if (key){
+                    if (key) {
                         fetchedOrders.push({
                             ...res.data[key],
                             id: key
