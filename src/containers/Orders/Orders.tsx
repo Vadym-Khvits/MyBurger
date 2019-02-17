@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Order from '../../components/Order/Order';
+import OrderBlock from '../../components/Order/Order';
 import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import { Order } from '../../store/reducers/order';
 
 interface StateFromProps {
-    orders: any;
+    orders: Order[];
     loading: boolean;
     purchased: boolean;
 }
@@ -28,11 +29,8 @@ class Orders extends React.Component<StateFromProps & DispatchFromProps & any, a
     render () {
         let orders = <Spinner />;
         if (!this.props.loading) {
-            orders = this.props.orders.map((order: any) => (
-                <Order
-                    key={order.id}
-                    ingredients={order.ingredients}
-                    price={order.price} />
+            orders = this.props.orders.map((order: Order) => (
+                <OrderBlock order={order} />
             ))
         }
         return (

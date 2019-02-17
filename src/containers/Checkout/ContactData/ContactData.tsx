@@ -112,9 +112,9 @@ class ContactData extends Component<StateFromProps & any, any> {
             }
         }
         const order = {
-            ingredients: this.props.ingredients,
-            price: this.props.price,
-            orderData: formData
+            Ingredients: this.props.ingredients,
+            Price: this.props.price,
+            OrderData: formData
         }
         this.props.onOrderBurger(order);
     }
