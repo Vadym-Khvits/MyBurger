@@ -105,7 +105,6 @@ class ContactData extends Component<StateFromProps & any, any> {
 
     orderHandler = (event: any) => {
         event.preventDefault();
-        // this.setState({ loading: true });
         const formData = {};
         for (const formElementIdentifier in this.state.orderForm) {
             if (formElementIdentifier) {
@@ -117,14 +116,7 @@ class ContactData extends Component<StateFromProps & any, any> {
             price: this.props.price,
             orderData: formData
         }
-        axios.post('/orders.json', order)
-            .then(response => {
-                // this.setState({ loading: false });
-                this.props.history.push('/');
-            })
-            .catch(error => {
-                // this.setState({ loading: false });
-            });
+        this.props.onOrderBurger(order);
     }
 
     checkValidity(value: string, rules: any) {

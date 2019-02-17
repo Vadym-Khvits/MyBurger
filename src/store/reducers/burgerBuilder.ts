@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { updateObject } from '../utility';
 
 const INGREDIENT_PRICES = {
     Bacon: 1.4,
@@ -38,44 +39,42 @@ const updateBurgerBuilder = (state: any, type: string, increment: number) => {
     const newPrice = oldPrice + priceAddition;
     const updatedPurchasable = updatedStack.length > 0;
 
-    return {
-        ...state,
+    return updateObject(state, {
         ingredientsCounter: updatedCounter,
         ingredientsStack: updatedStack,
         purchasable: updatedPurchasable,
         totalPrice: newPrice
-    };
-}
+    })
+};
+
+const setIngredients = (state: any, action: any) => {
+    return updateObject(state, {
+        ingredientsCounter: {
+            Bacon: action.ingredientsCounter.Bacon,
+            Cheese: action.ingredientsCounter.Cheese,
+            Cucumber: action.ingredientsCounter.Cucumber,
+            Ketchup: action.ingredientsCounter.Ketchup,
+            Meat: action.ingredientsCounter.Meat,
+            Salad: action.ingredientsCounter.Salad
+        },
+        ingredientsStack: [] as string[],
+        purchasable: false,
+        totalPrice: 4,
+        error: false
+    });
+};
+
+const fetchIngredientsFailed = (state: any, action: any) => {
+    return updateObject(state, {error: true});
+};
 
 const burgerBuilderReducer = (state = initialState, action: any) => {
     switch ( action.type ) {
-        case actionTypes.ADD_INGREDIENT:
-            return updateBurgerBuilder(state, action.ingredientName, 1);
-        case actionTypes.REMOVE_INGREDIENT:
-            return updateBurgerBuilder(state, action.ingredientName, -1);
-        case actionTypes.SET_INGREDIENTS:
-            return {
-                ...state,
-                ingredientsCounter: {
-                    Bacon: action.ingredientsCounter.Bacon,
-                    Cheese: action.ingredientsCounter.Cheese,
-                    Cucumber: action.ingredientsCounter.Cucumber,
-                    Ketchup: action.ingredientsCounter.Ketchup,
-                    Meat: action.ingredientsCounter.Meat,
-                    Salad: action.ingredientsCounter.Salad
-                },
-                ingredientsStack: [] as string[],
-                purchasable: false,
-                totalPrice: 4,
-                error: false
-            };
-        case actionTypes.FETCH_INGREDIENTS_FAILED:
-            return {
-                ...state,
-                error: true
-            };
-        default:
-            return state;
+        case actionTypes.ADD_INGREDIENT: return updateBurgerBuilder(state, action.ingredientName, 1);
+        case actionTypes.REMOVE_INGREDIENT: return updateBurgerBuilder(state, action.ingredientName, -1);
+        case actionTypes.SET_INGREDIENTS: return setIngredients(state, action);
+        case actionTypes.FETCH_INGREDIENTS_FAILED: return fetchIngredientsFailed(state, action);
+        default: return state;
     }
 };
 
