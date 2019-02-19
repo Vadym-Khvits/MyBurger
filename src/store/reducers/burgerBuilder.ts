@@ -10,15 +10,23 @@ const INGREDIENT_PRICES = {
     Salad: 0.4
 };
 
-const initialState = {
+export interface BurgerBuilderState {
+    ingredientsCounter: any;
+    ingredientsStack: string[];
+    purchasable: boolean;
+    totalPrice: number;
+    error: boolean;
+}
+
+const initialState: BurgerBuilderState = {
     ingredientsCounter: null,
-    ingredientsStack: [] as string[],
+    ingredientsStack: [],
     purchasable: false,
     totalPrice: 4,
     error: false
 };
 
-const updateBurgerBuilder = (state: any, type: string, increment: number) => {
+const updateBurgerBuilder = (state: BurgerBuilderState, type: string, increment: number) => {
     const updatedCounter = {
         ...state.ingredientsCounter
     };
@@ -47,7 +55,7 @@ const updateBurgerBuilder = (state: any, type: string, increment: number) => {
     })
 };
 
-const setIngredients = (state: any, action: any) => {
+const setIngredients = (state: BurgerBuilderState, action: any) => {
     return updateObject(state, {
         ingredientsCounter: {
             Bacon: action.ingredientsCounter.Bacon,
@@ -64,11 +72,11 @@ const setIngredients = (state: any, action: any) => {
     });
 };
 
-const fetchIngredientsFailed = (state: any, action: any) => {
+const fetchIngredientsFailed = (state: BurgerBuilderState, action: any) => {
     return updateObject(state, {error: true});
 };
 
-const burgerBuilderReducer = (state = initialState, action: any) => {
+const reducer = (state: BurgerBuilderState = initialState, action: any) => {
     switch ( action.type ) {
         case actionTypes.ADD_INGREDIENT: return updateBurgerBuilder(state, action.ingredientName, 1);
         case actionTypes.REMOVE_INGREDIENT: return updateBurgerBuilder(state, action.ingredientName, -1);
@@ -78,4 +86,4 @@ const burgerBuilderReducer = (state = initialState, action: any) => {
     }
 };
 
-export default burgerBuilderReducer;
+export default reducer;
