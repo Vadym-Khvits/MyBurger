@@ -27,12 +27,14 @@ class OrderBlock extends React.Component<PassedProps & any, any> {
         }
     
         const ingredientOutput = ingredients.map(ig => {
-            return <span className={classes.OrderIngredients} key={ig.layer}>{ig.layer} ({ig.name})</span>;
+            return <span className={classes.OrderIngredients} key={ig.layer}>
+                {+ig.layer + 1} ({ig.name})
+            </span>;
         });
 
         return (
             <div className={classes.Order}>
-                <p>Ingredients: {ingredientOutput}</p>
+                <p>Layers with Ingredients: {ingredientOutput}</p>
                 <p>Price: <strong>USD {order.Price.toFixed(2)}</strong></p>
             </div>
         );
