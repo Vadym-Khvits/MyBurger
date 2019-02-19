@@ -27,15 +27,7 @@ class OrderBlock extends React.Component<PassedProps & any, any> {
         }
     
         const ingredientOutput = ingredients.map(ig => {
-            return <span 
-                style={{
-                    textTransform: 'capitalize',
-                    display: 'inline-block',
-                    margin: '0 8px',
-                    border: '1px solid #ccc',
-                    padding: '5px'
-                    }}
-                key={ig.layer}>{ig.layer} ({ig.name})</span>;
+            return <span className={classes.OrderIngredients} key={ig.layer}>{ig.layer} ({ig.name})</span>;
         });
 
         return (

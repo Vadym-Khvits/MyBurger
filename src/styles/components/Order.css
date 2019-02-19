@@ -5,6 +5,11 @@
     margin: auto;
 }
 
+.CheckoutBurger {
+    width: 100%; 
+    margin: auto;
+}
+
 @media (min-width: 600px) {
     .CheckoutSummary {
         width: 500px;
@@ -19,4 +24,12 @@
     padding: 10px;
     margin: 10px auto;
     box-sizing: border-box;
+}
+
+.OrderIngredients {
+    text-transform: capitalize;
+    display: inline-block;
+    margin: 0 8px;
+    border: 1px solid #ccc;
+    padding: 5px;
 }
