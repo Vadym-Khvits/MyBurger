@@ -9,6 +9,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import Aux from '../../hoc/_Aux';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler.js';
 import axios from '../../axios-orders';
+import { AppState } from '../../store/reducers/rootReducer';
 
 interface StateFromProps {
     ingredientsStack: string[];
@@ -18,11 +19,18 @@ interface StateFromProps {
     error: boolean;
 }
 
+interface DispatchFromProps {
+    onIngredientAdded: (ingName: string) => void;
+    onIngredientRemoved: (ingName: string) => void;
+    onInitIngredients: () => void;
+    onInitPurchase: () => void;
+}
+
 interface OwnStateProps {
     purchasing: boolean;
 }
 
-class BurgerBuilder extends React.Component<OwnStateProps & StateFromProps & any, any> {
+class BurgerBuilder extends React.Component<OwnStateProps & StateFromProps & DispatchFromProps & any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -98,7 +106,7 @@ class BurgerBuilder extends React.Component<OwnStateProps & StateFromProps & any
     }
 }
 
-const mapStateToProps = (state: any): StateFromProps => {
+const mapStateToProps = (state: AppState): StateFromProps => {
     return {
         ingredientsCounter: state.burgerBuilder.ingredientsCounter,
         ingredientsStack: state.burgerBuilder.ingredientsStack,
@@ -108,7 +116,7 @@ const mapStateToProps = (state: any): StateFromProps => {
     };
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: any): DispatchFromProps => {
     return {
         onIngredientAdded: (ingName: string) => dispatch(actions.addIngredient(ingName)),
         onIngredientRemoved: (ingName: string) => dispatch(actions.removeIngredient(ingName)),
@@ -117,4 +125,4 @@ const mapDispatchToProps = (dispatch: any) => {
     }
 }
 
-export default connect<{},{},any>(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
+export default connect<StateFromProps, DispatchFromProps, any>(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
