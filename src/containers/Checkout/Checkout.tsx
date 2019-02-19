@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
+import { AppState } from '../../store/reducers/rootReducer';
 
 interface StateFromProps {
     ingredientsStack: string[];
@@ -43,11 +44,11 @@ class Checkout extends Component<StateFromProps & any, any> {
     }
 }
 
-const mapStateToProps = (state: any): StateFromProps => {
+const mapStateToProps = (state: AppState): StateFromProps => {
     return {
         ingredientsStack: state.burgerBuilder.ingredientsStack,
         purchased: state.order.purchased
     }
 };
 
-export default connect(mapStateToProps)(Checkout);
+export default connect<StateFromProps>(mapStateToProps)(Checkout);

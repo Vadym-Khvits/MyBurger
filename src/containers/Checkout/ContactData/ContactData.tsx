@@ -8,6 +8,8 @@ import * as classes from '../../../styles/containers/Checkout.css';
 import axios from '../../../axios-orders';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import * as actions from '../../../store/actions/index';
+import { AppState } from '../../../store/reducers/rootReducer';
+import { Order } from '../../../store/reducers/order';
 
 interface StateFromProps {
     ingredients: string[];
@@ -15,7 +17,11 @@ interface StateFromProps {
     loading: boolean;
 }
 
-class ContactData extends Component<StateFromProps & any, any> {
+interface DispatchFromProps {
+    onOrderBurger: (orderData: Order) => void;
+}
+
+class ContactData extends Component<StateFromProps & DispatchFromProps & any, any> {
     state = {
         orderForm: {
             name: {
@@ -196,7 +202,7 @@ class ContactData extends Component<StateFromProps & any, any> {
     }
 }
 
-const mapStateToProps = (state: any): StateFromProps => {
+const mapStateToProps = (state: AppState): StateFromProps => {
     return {
         ingredients: state.burgerBuilder.ingredientsStack,
         price: state.burgerBuilder.totalPrice,
@@ -204,10 +210,10 @@ const mapStateToProps = (state: any): StateFromProps => {
     }
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: any): DispatchFromProps => {
     return {
-        onOrderBurger: (orderData: any) => dispatch(actions.purchaseBurger(orderData))
+        onOrderBurger: (orderData: Order) => dispatch(actions.purchaseBurger(orderData))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (withErrorHandler(ContactData, axios));
+export default connect<StateFromProps, DispatchFromProps, any>(mapStateToProps, mapDispatchToProps) (withErrorHandler(ContactData, axios));

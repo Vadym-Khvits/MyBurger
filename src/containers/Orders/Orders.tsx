@@ -6,11 +6,11 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { Order } from '../../store/reducers/order';
+import { AppState } from '../../store/reducers/rootReducer';
 
 interface StateFromProps {
     orders: Order[];
     loading: boolean;
-    purchased: boolean;
 }
 
 interface DispatchFromProps {
@@ -41,17 +41,17 @@ class Orders extends React.Component<StateFromProps & DispatchFromProps & any, a
     }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState): StateFromProps => {
     return {
         orders: state.order.orders,
         loading: state.order.loading
     };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: any): DispatchFromProps => {
     return {
         onFetchOrders: () => dispatch(actions.fetchOrders())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));
+export default connect<StateFromProps, DispatchFromProps, any>(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));
